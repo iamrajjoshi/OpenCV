@@ -2,7 +2,7 @@ from dependencies import *
 
 recognizer = cv.face.LBPHFaceRecognizer_create() #local binary patterns historgrams
 recognizer.read('trainer/trainer.yml') #path where I stored yml file
-training_cascade_path = "../Haar Cascade/haarcascade_frontalface_default.xml" #path to harrcascade
+training_cascade_path = "haarcascade_frontalface_default.xml" #path to harrcascade
 face_cascade = cv.CascadeClassifier(training_cascade_path);
 font = cv.FONT_HERSHEY_COMPLEX
 

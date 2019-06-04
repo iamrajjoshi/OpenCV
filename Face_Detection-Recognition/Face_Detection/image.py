@@ -1,9 +1,17 @@
-from imports import *
+import cv2 as cv #open cv
+import numpy as np #numpy array
+from PIL import Image #python imaging library
+import os #operating system
+import sys #system
+import imutils #helpful opencv funcs
+import time #time
+#from imutils.video import VideoStream #for fps
+from imutils.video import FPS #for fps
 
 image_path = sys.argv[1] #get image
-training_cascade_path = "../Haar Cascade/haarcascade_frontalface_default.xml" #training data path (change for where i put it)
+training_cascade_path = ".haarcascade_frontalface_default.xml"
 
-face_cascade = cv.CascadeClassifier(training_cascade_path) #create the haarcascade
+face_cascade = cv.CascadeClassifier(training_cascade_path)
 
 image = cv.imread(image_path)
 grayscale_image = cv.cvtColor(image, cv.COLOR_BGR2GRAY) #grayscale image

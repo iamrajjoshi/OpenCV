@@ -1,7 +1,7 @@
 from dependencies import *
 
 path = 'input_images' #path of dataset
-training_cascade_path = "../Haar Cascade/haarcascade_frontalface_default.xml"
+training_cascade_path = "haarcascade_frontalface_default.xml"
 face_cascade = cv.CascadeClassifier(training_cascade_path)
 user_number = input ('[INPUT] Enter your user number: ')
 picture_number = 0 #picture number ---> change to what you want it to be
