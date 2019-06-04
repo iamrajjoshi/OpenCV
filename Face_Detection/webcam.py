@@ -5,8 +5,8 @@ import time
 from imutils.video import VideoStream
 from imutils.video import FPS
 
-training_cascade_path = "haarcascade_frontalface_default.xml"
-face_cascade = cv.CascadeClassifier(training_cascade_path)
+path = "haarcascade_frontalface_default.xml"
+face_cascade = cv.CascadeClassifier(path)
 video_feed = VideoStream(src=1).start()
 print("[INFO] starting video stream...")
 time.sleep(2.0)
