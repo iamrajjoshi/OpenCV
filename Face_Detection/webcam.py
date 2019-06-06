@@ -5,8 +5,8 @@ import time
 from imutils.video import VideoStream
 from imutils.video import FPS
 
-path = "haarcascade_frontalface_default.xml"
-classifier = cv.CascadeClassifier(path)
+
+faceCascade = cv.CascadeClassifier("haarcascade_frontalface_default.xml")
 video_feed = VideoStream(src=1).start()
 print("[INFO] starting video stream...")
 time.sleep(2.0)
@@ -16,7 +16,7 @@ while ((cv.waitKey(1) & 0xFF) != ord("q")):
 	frame = video_feed.read() #get webcam feed
 	frame = imutils.resize(frame, width=500)
 	gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY) #grayscale image
-	found = classifier.detectMultiScale (gray, scaleFactor=1.1, minNeighbors=10, minSize = (30, 30)) #detect faces
+	found = faceCascade.detectMultiScale (gray, scaleFactor=1.1, minNeighbors=10, minSize = (30, 30)) #detect faces
 	for (x, y, w, h) in found: cv.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2) #draw a rectangle around faces
 	cv.imshow("Video Feed", frame)
 	fps.update()
