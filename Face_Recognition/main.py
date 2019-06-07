@@ -10,8 +10,13 @@ from PIL import Image
 
 while True:
     #dataset.py
+    count = 0
     faceCascade = cv.CascadeClassifier("haarcascade_frontalface_default.xml")
     print("\n[INFO] Entering Capture Stage...")
+    i = input ('[INPUT] Would you like to add a person? {y or n}: ')
+    if i == "n":
+        break
+    count +=1
     face_id = input('[INPUT] Enter user id: ')
     print("[INFO] Initializing face capture. Look the camera and wait...")
     video_feed = VideoStream(src=1).start()
@@ -39,35 +44,33 @@ while True:
     print ("[INFO] Finished")
     video_feed.stream.release()
     cv.destroyAllWindows()
-    i = input ('[INPUT] Would you like to add another person? {y or n} ')
-    if i == "n":
-        break
 
 #trainer
-path = 'dataset'
-recognizer = cv.face.LBPHFaceRecognizer_create()
-detector = cv.CascadeClassifier("haarcascade_frontalface_default.xml");
+if count != 0:
+    path = 'dataset'
+    recognizer = cv.face.LBPHFaceRecognizer_create()
+    detector = cv.CascadeClassifier("haarcascade_frontalface_default.xml");
 
-def getImagesAndLabels(path):
-    imagePaths = [os.path.join(path,f) for f in os.listdir(path)]
-    faceSamples=[]
-    ids = []
-    for imagePath in imagePaths:
-        PIL_img = Image.open(imagePath).convert('L') # convert it to grayscale
-        img_numpy = np.array(PIL_img,'uint8')
-        id = int(os.path.split(imagePath)[-1].split(".")[1])
-        faces = detector.detectMultiScale(img_numpy)
-        for (x,y,w,h) in faces:
-            faceSamples.append(img_numpy[y:y+h,x:x+w])
-            ids.append(id)
-    return faceSamples,ids
-print("\n[INFO] Entering Training Stage...")
-print ("[INFO] Training faces. It will take a few seconds. Wait...")
-faces,ids = getImagesAndLabels(path)
-recognizer.train(faces, np.array(ids))
-# Save the model into trainer/trainer.yml
-recognizer.write('trainer/trainer.yml')
-print("[INFO] {0} faces trained ...".format(len(np.unique(ids))))
+    def getImagesAndLabels(path):
+        imagePaths = [os.path.join(path,f) for f in os.listdir(path)]
+        faceSamples=[]
+        ids = []
+        for imagePath in imagePaths:
+            PIL_img = Image.open(imagePath).convert('L') # convert it to grayscale
+            img_numpy = np.array(PIL_img,'uint8')
+            id = int(os.path.split(imagePath)[-1].split(".")[1])
+            faces = detector.detectMultiScale(img_numpy)
+            for (x,y,w,h) in faces:
+                faceSamples.append(img_numpy[y:y+h,x:x+w])
+                ids.append(id)
+        return faceSamples,ids
+    print("\n[INFO] Entering Training Stage...")
+    print ("[INFO] Training faces. It will take a few seconds. Wait...")
+    faces,ids = getImagesAndLabels(path)
+    recognizer.train(faces, np.array(ids))
+    # Save the model into trainer/trainer.yml
+    recognizer.write('trainer/trainer.yml')
+    print("[INFO] {0} faces trained ...".format(len(np.unique(ids))))
 
 
 #recognizer
