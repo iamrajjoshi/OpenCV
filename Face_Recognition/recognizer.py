@@ -14,7 +14,8 @@ font = cv.FONT_HERSHEY_SIMPLEX
 
 id = 0
 
-names = ['Raj', 'Mihir'] 
+file = open("names.txt", "r")
+names = (file.read()).split()
 video_feed = VideoStream(src=1).start()
 print("[INFO] starting video stream...")
 time.sleep(2.0)
@@ -35,13 +36,13 @@ while ((cv.waitKey(1) & 0xFF) != ord("q")):
         else:
             id = "unknown"
             confidence = "  {0}%".format(round(100 - confidence))
-        
+
         cv.putText(frame, str(id), (x+5,y-5), font, 1, (255,255,255), 2)
         cv.putText(frame, str(confidence), (x+5,y+h-5), font, 1, (255,255,0), 1)  
-    
+
     cv.imshow('Video Feed',frame)
     fps.update()
-    
+        
 fps.stop()
 print ("[INFO] elapsed time: {:.2f}".format(fps.elapsed()))
 print ("[INFO] FPS: {:.2f}".format(fps.fps()))
