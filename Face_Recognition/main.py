@@ -7,19 +7,18 @@ from imutils.video import FPS
 import os
 from PIL import Image
 
-
+new_face = 0
 while True:
     #dataset.py
-    count = 0
     faceCascade = cv.CascadeClassifier("haarcascade_frontalface_default.xml")
     print("\n[INFO] Entering Capture Stage...")
     i = input ('[INPUT] Would you like to add a person? {y or n}: ')
     if i == "n":
         break
-    count +=1
+    new_face+=1
     face_id = input('[INPUT] Enter user id: ')
     print("[INFO] Initializing face capture. Look the camera and wait...")
-    video_feed = VideoStream(src=1).start()
+    video_feed = VideoStream(src=0).start()
     time.sleep(2.0)
     count = 0
     print("[INFO] Starting capture...")
@@ -27,6 +26,7 @@ while True:
         if count >= 30:
             break
         frame = video_feed.read() #get webcam feed
+        frame = cv.flip(frame, -1)
         frame = imutils.resize(frame, width=500)
         gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY) #grayscale image
         found = faceCascade.detectMultiScale (gray, scaleFactor=1.1, minNeighbors=10, minSize = (30, 30)) #detect faces
@@ -46,11 +46,10 @@ while True:
     cv.destroyAllWindows()
 
 #trainer
-if count != 0:
+if new_face > 0:
     path = 'dataset'
     recognizer = cv.face.LBPHFaceRecognizer_create()
     detector = cv.CascadeClassifier("haarcascade_frontalface_default.xml");
-
     def getImagesAndLabels(path):
         imagePaths = [os.path.join(path,f) for f in os.listdir(path)]
         faceSamples=[]
@@ -84,7 +83,7 @@ id = 0
 
 file = open("names.txt", "r")
 names = (file.read()).split()
-video_feed = VideoStream(src=1).start()
+video_feed = VideoStream(src=0).start()
 print("\n[INFO] Entering Stream Stage...")
 print("[INFO] starting video stream...")
 time.sleep(2.0)
@@ -92,6 +91,7 @@ fps = FPS().start()
 
 while ((cv.waitKey(1) & 0xFF) != ord("q")):
     frame = video_feed.read() #get webcam feed
+    frame = cv.flip(frame, -1)
     frame = imutils.resize(frame, width=500)
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY) #grayscale image
     found = faceCascade.detectMultiScale (gray, scaleFactor=1.1, minNeighbors=10, minSize = (30, 30)) #detect faces
