@@ -7,7 +7,7 @@ from imutils.video import FPS
 
 
 faceCascade = cv.CascadeClassifier("haarcascade_frontalface_default.xml")
-video_feed = VideoStream(src=1).start()
+video_feed = VideoStream(src=0).start()
 print("[INFO] starting video stream...")
 time.sleep(2.0)
 fps = FPS().start()

@@ -26,7 +26,7 @@ while True:
         if count >= 30:
             break
         frame = video_feed.read() #get webcam feed
-        frame = cv.flip(frame, -1)
+        #frame = cv.flip(frame, -1)
         frame = imutils.resize(frame, width=500)
         gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY) #grayscale image
         found = faceCascade.detectMultiScale (gray, scaleFactor=1.1, minNeighbors=10, minSize = (30, 30)) #detect faces
@@ -91,7 +91,7 @@ fps = FPS().start()
 
 while ((cv.waitKey(1) & 0xFF) != ord("q")):
     frame = video_feed.read() #get webcam feed
-    frame = cv.flip(frame, -1)
+    #frame = cv.flip(frame, -1)
     frame = imutils.resize(frame, width=500)
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY) #grayscale image
     found = faceCascade.detectMultiScale (gray, scaleFactor=1.1, minNeighbors=10, minSize = (30, 30)) #detect faces
